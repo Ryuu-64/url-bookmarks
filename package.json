@@ -1,0 +1,81 @@
+{
+  "name": "vite-vue3-electron-ts-template",
+  "private": true,
+  "version": "0.1.0",
+  "author": "ryuu",
+  "main": "dist/electron/main/main.js",
+  "scripts": {
+    "database:init": "npx prisma migrate dev --name init",
+    "database:generate": "npx prisma generate",
+    "vite:dev": "vite",
+    "vite:build": "vue-tsc --noEmit && vite build --emptyOutDir",
+    "vite:preview": "vite preview",
+    "ts": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint -c .eslintrc --ext .ts ./src",
+    "app:dev": "tsc && concurrently vite \" electron .\" \"tsc -w\"",
+    "app:build": "npm run vite:build && tsc && electron-builder",
+    "app:preview": "npm run vite:build && tsc && electron ."
+  },
+  "build": {
+    "appId": "bookmarks",
+    "asar": true,
+    "directories": {
+      "buildResources": "assets",
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/shared": "^11.1.0",
+    "cheerio": "^0.22.0",
+    "element-plus": "^2.8.6",
+    "logform": "^2.7.0",
+    "multicast-function": "^1.1.0",
+    "sqlite3": "^5.1.7",
+    "vue": "^3.5.12",
+    "vue-draggable-plus": "^0.6.0",
+    "vue-i18n": "^10.0.5",
+    "winston": "^3.16.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "concurrently": "^9.0.1",
+    "electron": "^33.0.2",
+    "electron-builder": "^25.1.8",
+    "pinia": "^2.2.5",
+    "prisma": "^6.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vue-router": "^4.4.5",
+    "vue-tsc": "^2.1.10"
+  }
+}
